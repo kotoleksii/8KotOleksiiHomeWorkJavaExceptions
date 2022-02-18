@@ -1,8 +1,11 @@
 package edu.itstep;
 
+import edu.itstep.exceptions.CustomListDeleteException;
+import edu.itstep.exceptions.CustomListSetException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CustomListSetException, CustomListDeleteException {
         DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
         doubleLinkedList.insertLast("string");
         doubleLinkedList.insertLast(32.1);
