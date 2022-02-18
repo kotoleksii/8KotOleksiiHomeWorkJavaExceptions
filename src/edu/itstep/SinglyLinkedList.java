@@ -1,7 +1,7 @@
 package edu.itstep;
 
 import edu.itstep.exceptions.CustomListDeleteException;
-import edu.itstep.exceptions.CustomListSetException;
+import edu.itstep.exceptions.CustomListGetException;
 
 public class SinglyLinkedList<T> {
     private Node head;
@@ -32,14 +32,14 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public void insertFirst(T item) throws CustomListSetException {
+    public void insertFirst(T item) {
         Node newNode = new Node();
         newNode.data = item;
         newNode.next = head;
         head = newNode;
     }
 
-    public void insertLast(T item) throws CustomListSetException {
+    public void insertLast(T item) {
         Node current = head;
 
         while (current.next != null) {
@@ -56,6 +56,8 @@ public class SinglyLinkedList<T> {
             Node temp = this.head;
             this.head = this.head.next;
             temp = null;
+        } else {
+            throw new CustomListDeleteException();
         }
     }
 
@@ -71,11 +73,16 @@ public class SinglyLinkedList<T> {
                 temp.next = null;
                 lastNode = null;
             }
+        } else {
+            throw new CustomListDeleteException();
         }
     }
 
-    public void clear() {
+    public void clear() throws CustomListGetException {
         SinglyLinkedList.Node current = this.head;
+        if(current == null) {
+            throw new CustomListGetException();
+        }
         while (current != null) {
             SinglyLinkedList.Node curNext = current.getNext();
             current.setNext(null);

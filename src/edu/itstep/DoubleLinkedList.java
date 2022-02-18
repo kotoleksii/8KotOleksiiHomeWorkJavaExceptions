@@ -1,8 +1,6 @@
 package edu.itstep;
 
 import edu.itstep.exceptions.CustomListDeleteException;
-import edu.itstep.exceptions.CustomListGetException;
-import edu.itstep.exceptions.CustomListSetException;
 
 public class DoubleLinkedList<T> {
     private Node head;
@@ -42,7 +40,7 @@ public class DoubleLinkedList<T> {
         }
     }
 
-    public void insertFirst(T item) throws CustomListSetException {
+    public void insertFirst(T item){
         Node node = new Node(item);
         if (this.head == null) {
             this.head = node;
@@ -55,7 +53,7 @@ public class DoubleLinkedList<T> {
         }
     }
 
-    public void insertLast(T item) throws CustomListSetException {
+    public void insertLast(T item) {
         Node node = new Node(item);
         if (this.head == null) {
             this.head = node;
@@ -76,7 +74,7 @@ public class DoubleLinkedList<T> {
         System.out.println();
     }
 
-    public void addIndex(int index, T item) throws CustomListSetException, CustomListGetException {
+    public void addIndex(int index, T item) {
         if (index < 0 || index > size()) {
             return;
         }
@@ -101,7 +99,7 @@ public class DoubleLinkedList<T> {
         cur.setPrev(node);
     }
 
-    public boolean contains(T key) throws CustomListGetException {
+    public boolean contains(T key) {
         Node current = this.head;
         while (current != null) {
             if (current.getVal() == key) {
@@ -112,7 +110,7 @@ public class DoubleLinkedList<T> {
         return false;
     }
 
-    public Node findNode(T key) throws CustomListGetException {
+    public Node findNode(T key) {
         Node current = this.head;
         while (current != null) {
             if (current.getVal() == key) {
@@ -123,21 +121,21 @@ public class DoubleLinkedList<T> {
         return null;
     }
 
-    public void remove(T key) throws CustomListDeleteException, CustomListGetException {
+    public void remove(T key) throws CustomListDeleteException {
         Node current = this.findNode(key);
         if (current == null) {
-            return;
+            throw new CustomListDeleteException();
         }
         if (current == this.head) {
             this.head = this.head.getNext();
             //this.head.prev = null;
             this.head.setPrev(null);
-            return;
+            throw new CustomListDeleteException();
         }
         if (current == this.last) {
             current.getPrev().setNext(null);
             this.last = this.last.getPrev();
-            return;
+            throw new CustomListDeleteException();
         }
         current.getPrev().setNext(current.getNext());
         current.getNext().setPrev(current.getPrev());
@@ -148,6 +146,9 @@ public class DoubleLinkedList<T> {
             DoubleLinkedList.Node temp = this.head;
             this.head = this.head.next;
             temp = null;
+        }
+        else{
+            throw new CustomListDeleteException();
         }
     }
 
@@ -164,9 +165,12 @@ public class DoubleLinkedList<T> {
                 lastNode = null;
             }
         }
+        else{
+            throw new CustomListDeleteException();
+        }
     }
 
-    public void removeAllKey(T key) throws CustomListDeleteException {
+    public void removeAllKey(T key){
         Node current = this.head;
         while (current != null) {
             if (current.getVal() == key) {
@@ -187,7 +191,7 @@ public class DoubleLinkedList<T> {
         }
     }
 
-    public int size() throws CustomListGetException {
+    public int size() {
         Node current = this.head;
         int count = 0;
         while (current != null) {
